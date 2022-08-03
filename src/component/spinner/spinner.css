@@ -1,0 +1,11 @@
+.spinner__wrapper {
+    min-height: 100px;
+    max-width: 70px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.example {
+    margin: 0 auto;
+    text-align: center;
+}

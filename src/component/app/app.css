@@ -1,0 +1,20 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+body {
+    background-color: skyblue;
+
+}
+
+
+.container {
+    padding: 21px 40px 21px 32px;
+    background-color: #fff;
+}

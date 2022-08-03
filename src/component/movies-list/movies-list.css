@@ -1,0 +1,42 @@
+.container {
+    margin: 0 auto;
+    max-width: 1010px;
+
+}
+
+.movies {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.movies img {
+    max-width: 100%;
+}
+
+.movies__pagination {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.ant-pagination .ant-pagination-item a {
+    color: rgba(0, 0, 0, 0.65);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 22px;
+}
+
+.ant-pagination .ant-pagination-item-active {
+    border-color: #1890FF;
+    background-color: #1890FF;
+    border-radius: 4px;
+}
+
+.ant-pagination .ant-pagination-item-active a {
+    color: #fff;
+}
+
+.ant-pagination .ant-pagination-item-active:hover a {
+    color: rgba(0, 0, 0, 0.65)
+}
