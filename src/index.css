@@ -1,0 +1,23 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+body {
+    background-color: skyblue;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px
+}
+
+@media (max-width: 1010px) {
+    .movies {
+        justify-content: center;
+    }
+}

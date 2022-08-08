@@ -1,19 +1,21 @@
-import React from "react";
-import { Alert } from 'antd';
-import './error-indicator.css';
+import React from 'react'
+import { Alert } from 'antd'
+import './error-indicator.css'
 
-const ErrorIndicator = () => {
-    return (
-      <div className="alert__wrapper">
+function ErrorIndicator(props) {
+  const { message } = props
+
+  return (
+    <div className="alert__wrapper">
       <Alert
-      message="Error"
-      description="Error: Data not received from server"
-      type="error"
-      showIcon
+        message="Error"
+        // description="Error: Data not received from server"
+        description={message}
+        type="error"
+        showIcon
       />
     </div>
+  )
+}
 
-    )
-};
-
-export default ErrorIndicator;
+export default ErrorIndicator

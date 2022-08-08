@@ -1,12 +1,50 @@
-
 export default class SwapiService {
-    
-    async getResource(url) {
-        this._apiBase = 'https://api.themoviedb.org/3/'
-        const res = await fetch(`${this._apiBase}${url}`);
-        if(!res.ok) {
-            throw new Error ('Server error ' + res.status);
-        }
-        return await res.json();
+  constructor() {
+    this.apiBase = 'https://api.themoviedb.org/3/'
+  }
+
+  async getResource(url) {
+    const res = await fetch(`${this.apiBase}${url}`)
+
+    if (!res.ok) {
+      throw new Error(`Server error ${res.status}`)
     }
+
+    return await res.json()
+  }
+
+  async createGuestSession(url) {
+    const res = await fetch(`${this.apiBase}${url}`)
+    if (!res.ok) {
+      throw new Error(`Server error ${res.status}`)
+    }
+    return await res.json()
+  }
+
+  async getGuestSessionRatedMovie(url, page = 1) {
+    const res = await fetch(
+      `${this.apiBase}guest_session/${url}/rated/movies?api_key=d019d5a6023ae30666fb845af41ca028&page=${page}`
+    )
+    if (!res.ok) {
+      throw new Error(`Server error ${res.status}`)
+    }
+
+    return await res.json()
+  }
+
+  async postRating(sessionId, movieId, rating) {
+    const ratingData = {
+      value: rating,
+    }
+    await fetch(
+      `${this.apiBase}movie/${movieId}/rating?api_key=d019d5a6023ae30666fb845af41ca028&guest_session_id=${sessionId}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify(ratingData),
+      }
+    )
+  }
 }
