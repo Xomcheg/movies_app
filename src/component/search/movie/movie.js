@@ -21,59 +21,74 @@ export default class Movie extends Component {
     // теперь необходимо передать значение рейтинга в APP что бы записать его в localStorage и передавать этот рейтинг
     // фильмам в компоненты search и rated
     this.setRating = (value) => {
-      this.swapiService.postRating(this.props.sessionId, this.props.data.id, value)
+      const { data, sessionId, overwriteMoviesDataWithNewRating, refreshMovieRating } = this.props
+      const { id: newId } = data
+      this.swapiService.postRating(sessionId, newId, value)
       this.setState({
         rating: value,
-        id: this.props.data.id,
+        id: newId,
       })
-      this.props.overwriteMoviesDataWithNewRating(this.props.data.id, value)
-      this.props.refreshMovieRating()
+      overwriteMoviesDataWithNewRating(newId, value)
+      refreshMovieRating()
     }
     this.swapiService = new SwapiService()
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const { refreshMovieRating } = this.props
     const { rating, id } = this.state
     if (prevState.rating !== rating || prevState.id !== id) {
-      this.props.refreshMovieRating()
+      refreshMovieRating()
     }
   }
 
   render() {
-    const { title, overview, poster_path, release_date, vote_average, genre_ids, rating } = this.props.data
+    const { data } = this.props
+    const {
+      title,
+      overview,
+      poster_path: posterPath,
+      release_date: releaseDate,
+      vote_average: voteAverage,
+      genre_ids: genreIds,
+      rating,
+    } = data
 
     let substr = overview.substring(0, 204)
-    if (substr.length == 204) {
+    if (substr.length === 204) {
       const index = substr.lastIndexOf(' ')
       substr = `${substr.substring(0, index)} ...`
     }
 
     let colorRating = 'movie__rating'
-    if (vote_average < 3) {
+    if (voteAverage < 3) {
       colorRating += ' movies__color-very-low'
-    } else if (vote_average >= 3 && vote_average < 5) {
+    } else if (voteAverage >= 3 && voteAverage < 5) {
       colorRating += ' movies__color-low'
-    } else if (vote_average >= 5 && vote_average < 7) {
+    } else if (voteAverage >= 5 && voteAverage < 7) {
       colorRating += ' movies__color-hight'
-    } else if (vote_average >= 7) {
+    } else if (voteAverage >= 7) {
       colorRating += ' movies__color-very-hight'
     }
+
+    const releasseDateFormat = releaseDate ? format(new Date(releaseDate), 'PP') : 'No date'
 
     return (
       <div className="movie">
         <div className="movie__poster">
-          <img src={`https://image.tmdb.org/t/p/original${poster_path}`} alt="poster" />
+          <img src={`https://image.tmdb.org/t/p/original${posterPath}`} alt="poster" />
         </div>
         <div className="movie__info">
           <div className="movie__title">{title}</div>
           <div className={colorRating}>
-            {vote_average.toFixed(1)}
+            {voteAverage.toFixed(1)}
             {/* {Math.floor(vote_average *10)/10} */}
           </div>
-          <div className="movie__release-date">{format(new Date(release_date), 'PP')}</div>
+          <div className="movie__release-date">{releasseDateFormat}</div>
+          {/* <div className="movie__release-date">{releaseDate}</div> */}
           <div className="movie__genres">
             <GenresConsumer>
-              {(moviesGenres) => <GenresList genres={moviesGenres} genreIds={genre_ids} />}
+              {(moviesGenres) => <GenresList genres={moviesGenres} genreIds={genreIds} />}
             </GenresConsumer>
           </div>
           <div className="movie__overview">{substr}</div>

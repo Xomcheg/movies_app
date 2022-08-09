@@ -14,7 +14,9 @@ export default class MoviesList extends Component {
     // она передает в стэйт app страницу по которой кликнули currentPage, что бы потом отрисовать элементы
     // с необходимой страницы
     this.getCurrentPage = (page) => {
-      this.props.searchMoviePage(page)
+      console.log('test')
+      const { searchMoviePage } = this.props
+      searchMoviePage(page)
     }
   }
 

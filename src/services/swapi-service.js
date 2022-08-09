@@ -9,8 +9,8 @@ export default class SwapiService {
     if (!res.ok) {
       throw new Error(`Server error ${res.status}`)
     }
-
-    return await res.json()
+    const result = await res.json()
+    return result
   }
 
   async createGuestSession(url) {
@@ -18,7 +18,8 @@ export default class SwapiService {
     if (!res.ok) {
       throw new Error(`Server error ${res.status}`)
     }
-    return await res.json()
+    const result = await res.json()
+    return result
   }
 
   async getGuestSessionRatedMovie(url, page = 1) {
@@ -28,8 +29,8 @@ export default class SwapiService {
     if (!res.ok) {
       throw new Error(`Server error ${res.status}`)
     }
-
-    return await res.json()
+    const result = await res.json()
+    return result
   }
 
   async postRating(sessionId, movieId, rating) {

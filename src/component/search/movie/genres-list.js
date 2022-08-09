@@ -13,7 +13,7 @@ function GenresList({ genreIds, genres }) {
   //     return  <div className="movie__genres-item">{genres[id]}</div>
   // })
 
-  return <>{genresData}</>
+  return genresData
 }
 
 export default GenresList

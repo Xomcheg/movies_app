@@ -24,8 +24,10 @@ export default class SearchBox extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.stateSearchMovie !== this.state.label) {
-      this.props.getMovieName(this.state.label)
+    const { label } = this.state
+    const { getMovieName } = this.props
+    if (prevProps.stateSearchMovie !== label) {
+      getMovieName(label)
     }
   }
 
@@ -35,7 +37,7 @@ export default class SearchBox extends Component {
         className="serch-box"
         type="text"
         placeholder="Type to search..."
-        onChange={_.debounce(this.searchMovie, 300)}
+        onChange={_.debounce(this.searchMovie, 500)}
       />
     )
   }

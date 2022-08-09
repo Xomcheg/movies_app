@@ -17,7 +17,55 @@ body {
 }
 
 @media (max-width: 1010px) {
+
+
+    .movie {
+        max-width: 388px;
+        padding: 6px 8px 5px 6px
+    }
+    .movie__poster{
+        max-width: 60px;
+        display: inline-block;
+        position: absolute;
+        top:
+    }
+    .movie__info{
+        max-width: 97%;
+    }
+    .movie__title,
+    .movie__release-date,
+    .movie__genres {
+        padding-left: 73px
+    }
+
+    .movie__title{
+        max-width: 335px;
+    }
+
+    .movie__stars{
+        text-align: right;
+        margin-right:  -7px;
+    }
+ 
+}
+
+@media (max-width: 890px){
+    .container {
+        max-width: 420px;
+        padding: 5px 16px;
+    }
     .movies {
         justify-content: center;
+    }
+
+    .movie {
+        margin-bottom: 20px;
+    }
+
+    .header {
+        padding-bottom: 17px
+    }
+    .serch-box{
+        margin-bottom: 10px;
     }
 }
