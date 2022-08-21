@@ -39,8 +39,6 @@ export default class SearchBox extends Component {
     const { label } = this.state
     const { getMovieName } = this.props
     if (prevProps.stateSearchMovie !== label) {
-      console.log('prevLabel', prevProps.stateSearchMovie)
-      console.log('label', label)
       getMovieName(label)
     }
   }
