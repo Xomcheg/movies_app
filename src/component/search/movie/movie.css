@@ -16,6 +16,8 @@
 .movie__info {
     max-width: 228px;
     position: relative;
+    /* border: 1px solid red; */
+    padding-bottom: 30px;
 }
 
 
@@ -60,7 +62,11 @@
 }
 
 .movie__stars {
-    padding: 3px 0 10px
+    padding: 3px 0 10px;
+    margin-top: auto;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 .movies__color-very-low {

@@ -53,12 +53,16 @@ export default class App extends Component {
     // записываю в стэйт ratingMovieData массив фильмов data.results
     //  записываю в  ratingMoviesCounter общее количество фильмов data.total_results
     this.getRatingMovie = () => {
+      this.setState({
+        loading: true,
+      })
       const { sessionId, ratingMovieCurrentPage } = this.state
       this.SwapiService.getGuestSessionRatedMovie(sessionId, ratingMovieCurrentPage)
         .then((data) => {
           this.setState({
             ratingMovieData: data.results,
             ratingMoviesCounter: data.total_results,
+            loading: false,
           })
         })
         .catch((err) => {
@@ -87,7 +91,8 @@ export default class App extends Component {
     this.searchMovieList = (state = this.state) => {
       const { moviesDataRatingArr } = this.state
       this.SwapiService.getResource(
-        `search/movie?api_key=d019d5a6023ae30666fb845af41ca028&query=${state.searchMovie}&language=en-US&page=${state.currentPage}&include_adult=false`
+        // `search/movie?api_key=d019d5a6023ae30666fb845af41ca028&query=${state.searchMovie}&language=en-US&page=${state.currentPage}&include_adult=false`
+        `search/movie?api_key=a2fbb8a8510cd68f6c08fbbdeffcb92d&query=${state.searchMovie}&language=en-US&page=${state.currentPage}&include_adult=false`
       )
         .then((body) => {
           const moviesWithRating = this.refreshMoviesRatingSub(body.results, moviesDataRatingArr)
@@ -129,6 +134,33 @@ export default class App extends Component {
       this.setState({
         moviesDataRatingArr: newMoviesDataRatingArr,
       })
+
+      const { activeHeaderBtn } = this.state
+      const { moviesData } = this.state
+      const newMoviesData = moviesData.map((it) => {
+        const newItem = it
+        if (newItem.id === id) {
+          newItem.rating = rating
+        }
+        return newItem
+      })
+      this.setState({
+        moviesData: newMoviesData,
+      })
+
+      if (activeHeaderBtn === 'rated') {
+        const { ratingMovieData } = this.state
+        const newRatingMovieData = ratingMovieData.map((it) => {
+          const newItem = it
+          if (newItem.id === id) {
+            newItem.rating = rating
+          }
+          return newItem
+        })
+        this.setState({
+          ratingMovieData: newRatingMovieData,
+        })
+      }
     }
     //----------------------------------------------------
 
@@ -147,6 +179,7 @@ export default class App extends Component {
     this.checkHeaderBtnActive = (btn) => {
       this.setState({
         activeHeaderBtn: btn,
+        // loading: true,
       })
     }
 
@@ -167,8 +200,12 @@ export default class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { searchMovie, currentPage, ratingMovieCurrentPage, activeHeaderBtn } = this.state
-    if (prevState.searchMovie !== searchMovie || prevState.currentPage !== currentPage) {
+    const { searchMovie, currentPage, ratingMovieCurrentPage } = this.state
+    if (
+      prevState.searchMovie !== searchMovie ||
+      prevState.currentPage !== currentPage ||
+      prevState.ratingMovieCurrentPage !== ratingMovieCurrentPage
+    ) {
       if (prevState.searchMovie !== searchMovie) {
         this.setState({
           currentPage: '1',
@@ -184,14 +221,17 @@ export default class App extends Component {
     // то вызываю функцию searchMovieRatedList которая вернет массив фильмов с нужной страницы
     if (prevState.ratingMovieCurrentPage !== ratingMovieCurrentPage) {
       this.searchMovieRatedList()
+      this.setState({
+        loading: true,
+      })
     }
-    if (prevState.activeHeaderBtn !== activeHeaderBtn) {
-      if (activeHeaderBtn === 'search') {
-        this.setState({
-          searchMovie: 'return',
-        })
-      }
-    }
+    // if (prevState.activeHeaderBtn !== activeHeaderBtn) {
+    //   if (activeHeaderBtn === 'search') {
+    //     this.setState({
+    //       searchMovie: 'return',
+    //     })
+    //   }
+    // }
   }
 
   onError(err) {
@@ -204,7 +244,8 @@ export default class App extends Component {
 
   getRandomMovies() {
     this.SwapiService.getResource(
-      'search/movie?api_key=d019d5a6023ae30666fb845af41ca028&query=return&language=en-US&page=1&include_adult=false&page=1'
+      'search/movie?api_key=a2fbb8a8510cd68f6c08fbbdeffcb92d&query=return&language=en-US&page=1&include_adult=false&page=1'
+      // 'search/movie?api_key=d019d5a6023ae30666fb845af41ca028&query=return&language=en-US&page=1&include_adult=false&page=1'
     )
       .then((movies) => {
         this.setState({
@@ -220,7 +261,8 @@ export default class App extends Component {
   }
 
   getAllGanres() {
-    this.SwapiService.getResource('genre/movie/list?api_key=d019d5a6023ae30666fb845af41ca028')
+    this.SwapiService.getResource('genre/movie/list?api_key=a2fbb8a8510cd68f6c08fbbdeffcb92d')
+      // this.SwapiService.getResource('genre/movie/list?api_key=d019d5a6023ae30666fb845af41ca028')
       .then((genres) => {
         this.setState({
           moviesGenres: genres.genres.reduce((map, obj) => {
@@ -241,7 +283,8 @@ export default class App extends Component {
   //  Получаем гостевой ID по которому будем отправлять данные о фильме и проставленном ему рейтинге под этим
   // гостевым ID
   getGuestSession() {
-    this.SwapiService.createGuestSession('authentication/guest_session/new?api_key=d019d5a6023ae30666fb845af41ca028')
+    this.SwapiService.createGuestSession('authentication/guest_session/new?api_key=a2fbb8a8510cd68f6c08fbbdeffcb92d')
+      // this.SwapiService.createGuestSession('authentication/guest_session/new?api_key=d019d5a6023ae30666fb845af41ca028')
       .then((body) => {
         this.setState({
           sessionId: body.guest_session_id,
@@ -292,6 +335,7 @@ export default class App extends Component {
     const ratedBox = (
       <GenresProvider value={moviesGenres}>
         <Rated
+          loading={loading}
           getRatingMovie={this.getRatingMovie}
           ratingMovieData={ratingMovieData}
           ratingMoviesCounter={ratingMoviesCounter}
@@ -299,6 +343,8 @@ export default class App extends Component {
           ratingMovieCurrentPage={ratingMovieCurrentPage}
           searchMovie={searchMovie}
           sessionId={sessionId}
+          refreshMovieRating={this.refreshMovieRating}
+          overwriteMoviesDataWithNewRating={this.overwriteMoviesDataWithNewRating}
         />
       </GenresProvider>
     )

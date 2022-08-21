@@ -5,8 +5,16 @@ import './search-box.css'
 export default class SearchBox extends Component {
   constructor() {
     super()
+    console.log('constructor for search box')
     this.state = {
-      label: 'return',
+      label: '',
+    }
+
+    this.getStartLabel = () => {
+      const { stateSearchMovie } = this.props
+      this.setState({
+        label: stateSearchMovie,
+      })
     }
 
     this.searchMovie = (e) => {
@@ -23,10 +31,16 @@ export default class SearchBox extends Component {
     }
   }
 
+  UNSAFE_componentWillMount() {
+    this.getStartLabel()
+  }
+
   componentDidUpdate(prevProps) {
     const { label } = this.state
     const { getMovieName } = this.props
     if (prevProps.stateSearchMovie !== label) {
+      console.log('prevLabel', prevProps.stateSearchMovie)
+      console.log('label', label)
       getMovieName(label)
     }
   }

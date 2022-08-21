@@ -11,36 +11,36 @@ import './movie.css'
 export default class Movie extends Component {
   constructor() {
     super()
-    this.state = {
-      rating: '',
-      id: '',
-    }
+    // this.state = {
+    //   rating: '',
+    //   id: '',
+    // }
 
     // При проставлении рейтинга срабатывает событи компонента Rate onChange, вызывается функция setRating
     // которая отправляет POST запрос и передает Id гостевой сессии, id фильма и значение проставленного рейтинга
     // теперь необходимо передать значение рейтинга в APP что бы записать его в localStorage и передавать этот рейтинг
     // фильмам в компоненты search и rated
     this.setRating = (value) => {
-      const { data, sessionId, overwriteMoviesDataWithNewRating, refreshMovieRating } = this.props
+      const { data, sessionId, overwriteMoviesDataWithNewRating } = this.props
       const { id: newId } = data
       this.swapiService.postRating(sessionId, newId, value)
-      this.setState({
-        rating: value,
-        id: newId,
-      })
+      // this.setState({
+      //   rating: value,
+      //   id: newId,
+      // })
       overwriteMoviesDataWithNewRating(newId, value)
-      refreshMovieRating()
+      //      refreshMovieRating()
     }
     this.swapiService = new SwapiService()
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { refreshMovieRating } = this.props
-    const { rating, id } = this.state
-    if (prevState.rating !== rating || prevState.id !== id) {
-      refreshMovieRating()
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   const { refreshMovieRating } = this.props
+  //   const { rating, id } = this.state
+  //   if (prevState.rating !== rating || prevState.id !== id) {
+  //     refreshMovieRating()
+  //   }
+  // }
 
   render() {
     const { data } = this.props
