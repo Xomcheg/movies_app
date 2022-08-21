@@ -19,14 +19,15 @@ export default class SearchBox extends Component {
 
     this.searchMovie = (e) => {
       const { target } = e
-      let movie
-      if (target.value.length === 0) {
-        movie = 'return'
-      } else {
-        movie = target.value
-      }
+      // let movie
+      // if (target.value.length === 0) {
+      //   movie = 'return'
+      // } else {
+      //   movie = target.value
+      // }
       this.setState({
-        label: movie,
+        // label: movie,
+        label: target.value,
       })
     }
   }
@@ -44,11 +45,12 @@ export default class SearchBox extends Component {
   }
 
   render() {
+    const { label } = this.state
     return (
       <input
         className="serch-box"
         type="text"
-        placeholder="Type to search..."
+        placeholder={label === '' ? 'Type to search...' : label}
         onChange={_.debounce(this.searchMovie, 500)}
       />
     )

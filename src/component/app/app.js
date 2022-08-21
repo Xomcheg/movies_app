@@ -16,7 +16,8 @@ export default class App extends Component {
       moviesData: [],
       moviesGenres: {},
       currentPage: '1',
-      searchMovie: 'return',
+      // searchMovie: 'return',
+      searchMovie: '',
       moviesCounter: '',
       loading: true,
       error: false,
@@ -90,9 +91,13 @@ export default class App extends Component {
 
     this.searchMovieList = (state = this.state) => {
       const { moviesDataRatingArr } = this.state
+      let searchRequest = state.searchMovie
+      if (searchRequest.length === 0) {
+        searchRequest = 'return'
+      }
       this.SwapiService.getResource(
         // `search/movie?api_key=d019d5a6023ae30666fb845af41ca028&query=${state.searchMovie}&language=en-US&page=${state.currentPage}&include_adult=false`
-        `search/movie?api_key=a2fbb8a8510cd68f6c08fbbdeffcb92d&query=${state.searchMovie}&language=en-US&page=${state.currentPage}&include_adult=false`
+        `search/movie?api_key=a2fbb8a8510cd68f6c08fbbdeffcb92d&query=${searchRequest}&language=en-US&page=${state.currentPage}&include_adult=false`
       )
         .then((body) => {
           const moviesWithRating = this.refreshMoviesRatingSub(body.results, moviesDataRatingArr)
