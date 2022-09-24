@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Pagination } from 'antd'
 
-import Movie from '../movie'
-import SearchReturnedNoResults from '../search-returned-no-results/search-returned-no-results'
+import { Movie } from '../movie'
+import { SearchReturnedNoResults } from '../search-returned-no-results/search-returned-no-results'
 
 import './movies-list.css'
 
-export default class MoviesList extends Component {
+export class MoviesList extends Component {
   constructor() {
     super()
 
@@ -14,7 +14,6 @@ export default class MoviesList extends Component {
     // она передает в стэйт app страницу по которой кликнули currentPage, что бы потом отрисовать элементы
     // с необходимой страницы
     this.getCurrentPage = (page) => {
-      console.log('test')
       const { searchMoviePage } = this.props
       searchMoviePage(page)
     }

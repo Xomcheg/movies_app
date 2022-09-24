@@ -77,7 +77,8 @@
         ],
         "newlines-between": "always"
       }
-    ]
+    ],
+    "import/prefer-default-export": "off"
   },
   "settings": {
     "import/resolver": {

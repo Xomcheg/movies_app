@@ -2,19 +2,15 @@ import React, { Component } from 'react'
 import { Rate } from 'antd'
 import { format } from 'date-fns'
 
-import SwapiService from '../../../services/swapi-service'
+import { SwapiService } from '../../../services/swapi-service'
 import { GenresConsumer } from '../../genres-context'
 
-import GenresList from './genres-list'
+import { GenresList } from './genres-list'
 import './movie.css'
 
-export default class Movie extends Component {
+export class Movie extends Component {
   constructor() {
     super()
-    // this.state = {
-    //   rating: '',
-    //   id: '',
-    // }
 
     // При проставлении рейтинга срабатывает событи компонента Rate onChange, вызывается функция setRating
     // которая отправляет POST запрос и передает Id гостевой сессии, id фильма и значение проставленного рейтинга
@@ -24,23 +20,10 @@ export default class Movie extends Component {
       const { data, sessionId, overwriteMoviesDataWithNewRating } = this.props
       const { id: newId } = data
       this.swapiService.postRating(sessionId, newId, value)
-      // this.setState({
-      //   rating: value,
-      //   id: newId,
-      // })
       overwriteMoviesDataWithNewRating(newId, value)
-      //      refreshMovieRating()
     }
     this.swapiService = new SwapiService()
   }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { refreshMovieRating } = this.props
-  //   const { rating, id } = this.state
-  //   if (prevState.rating !== rating || prevState.id !== id) {
-  //     refreshMovieRating()
-  //   }
-  // }
 
   render() {
     const { data } = this.props
@@ -80,12 +63,8 @@ export default class Movie extends Component {
         </div>
         <div className="movie__info">
           <div className="movie__title">{title}</div>
-          <div className={colorRating}>
-            {voteAverage.toFixed(1)}
-            {/* {Math.floor(vote_average *10)/10} */}
-          </div>
+          <div className={colorRating}>{voteAverage.toFixed(1)}</div>
           <div className="movie__release-date">{releasseDateFormat}</div>
-          {/* <div className="movie__release-date">{releaseDate}</div> */}
           <div className="movie__genres">
             <GenresConsumer>
               {(moviesGenres) => <GenresList genres={moviesGenres} genreIds={genreIds} />}

@@ -9,11 +9,7 @@ function GenresList({ genreIds, genres }) {
     genresData = genreIds.map((id) => <div className="movie__genres-item">{genres[id]}</div>)
   }
 
-  // const genreData = genreIds.map( (id) => {
-  //     return  <div className="movie__genres-item">{genres[id]}</div>
-  // })
-
   return genresData
 }
 
-export default GenresList
+export { GenresList }

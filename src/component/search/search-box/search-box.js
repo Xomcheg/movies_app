@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import './search-box.css'
 
-export default class SearchBox extends Component {
+export class SearchBox extends Component {
   constructor() {
     super()
-    console.log('constructor for search box')
     this.state = {
       label: '',
     }
@@ -19,14 +18,7 @@ export default class SearchBox extends Component {
 
     this.searchMovie = (e) => {
       const { target } = e
-      // let movie
-      // if (target.value.length === 0) {
-      //   movie = 'return'
-      // } else {
-      //   movie = target.value
-      // }
       this.setState({
-        // label: movie,
         label: target.value,
       })
     }

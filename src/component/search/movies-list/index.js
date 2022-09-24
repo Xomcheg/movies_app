@@ -1,3 +1,3 @@
-import MoviesList from './movies-list'
+import { MoviesList } from './movies-list'
 
-export default MoviesList
+export { MoviesList }

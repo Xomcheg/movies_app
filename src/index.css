@@ -27,7 +27,6 @@ body {
         max-width: 60px;
         display: inline-block;
         position: absolute;
-        top:
     }
     .movie__info{
         max-width: 97%;
@@ -60,6 +59,9 @@ body {
 
     .movie {
         margin-bottom: 20px;
+    }
+    .movie__rating{
+      right: -11px;
     }
 
     .header {

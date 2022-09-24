@@ -1,22 +1,21 @@
 import React, { Component } from 'react'
 
-import SwapiService from '../../services/swapi-service'
-import Header from '../header'
-import Search from '../search'
-import Rated from '../rated'
-import ErrorIndicator from '../error-indicator'
+import { SwapiService } from '../../services/swapi-service'
+import { Header } from '../header'
+import { Search } from '../search'
+import { Rated } from '../rated'
+import { ErrorIndicator } from '../error-indicator'
 import { GenresProvider } from '../genres-context'
 
 import './app.css'
 
-export default class App extends Component {
+export class App extends Component {
   constructor() {
     super()
     this.state = {
       moviesData: [],
       moviesGenres: {},
       currentPage: '1',
-      // searchMovie: 'return',
       searchMovie: '',
       moviesCounter: '',
       loading: true,
@@ -24,8 +23,6 @@ export default class App extends Component {
       sessionId: '',
       activeHeaderBtn: 'search',
       moviesDataRatingArr: {},
-
-      // Rating Movie Data----------------------------
       ratingMovieData: [],
       ratingMoviesCounter: '',
       ratingMovieCurrentPage: '1', // сюда записывам страницу из вкладки Rated по номеру которой кликнул пользователь
@@ -39,8 +36,6 @@ export default class App extends Component {
       })
     }
 
-    // Function for rating movie----------------------------------------------------------------------------------------------------
-
     // Получаю номер страницы из вкладки rated когда кликнули по определенной странице с фильмами, если страниц больше 1
     // записываю ее в state ratingMovieCurrentPage
     this.searchMovieRatingPage = (page) => {
@@ -48,9 +43,8 @@ export default class App extends Component {
         ratingMovieCurrentPage: page,
       })
     }
-    //----------------------------------------------------------------------------------------------------------------------
 
-    // При клике по вкладке RAted получаю список фильмов еоторым проставили рейтинг-------------------------
+    // При клике по вкладке RAted получаю список фильмов еоторым проставили рейтинг
     // записываю в стэйт ratingMovieData массив фильмов data.results
     //  записываю в  ratingMoviesCounter общее количество фильмов data.total_results
     this.getRatingMovie = () => {
@@ -66,8 +60,7 @@ export default class App extends Component {
             loading: false,
           })
         })
-        .catch((err) => {
-          console.log('Error', err)
+        .catch(() => {
           this.setState({
             ratingMovieData: 'ratingMovieDataNotUploaded',
           })
@@ -87,8 +80,6 @@ export default class App extends Component {
       })
     }
 
-    // Function for rating movie------------------------------------------------------------------------------------
-
     this.searchMovieList = (state = this.state) => {
       const { moviesDataRatingArr } = this.state
       let searchRequest = state.searchMovie
@@ -96,20 +87,17 @@ export default class App extends Component {
         searchRequest = 'return'
       }
       this.SwapiService.getResource(
-        // `search/movie?api_key=d019d5a6023ae30666fb845af41ca028&query=${state.searchMovie}&language=en-US&page=${state.currentPage}&include_adult=false`
         `search/movie?api_key=a2fbb8a8510cd68f6c08fbbdeffcb92d&query=${searchRequest}&language=en-US&page=${state.currentPage}&include_adult=false`
       )
         .then((body) => {
           const moviesWithRating = this.refreshMoviesRatingSub(body.results, moviesDataRatingArr)
           this.setState({
             moviesData: moviesWithRating,
-            // pageCounter: body.total_pages,
             moviesCounter: body.total_results,
             loading: false,
           })
         })
         .catch((err) => {
-          console.log('Ошибка', err)
           this.onError(err)
         })
     }
@@ -123,15 +111,8 @@ export default class App extends Component {
       })
     }
 
-    // this.checkHeaderBtnActive = (btn) => {
-    //   this.setState({
-    //     activeHeaderBtn: btn,
-    //   })
-    // }
-
     // Функция которая записывает id фильма и его рейтинг в localstorage, срабатывает при клике по рейтингу
     // в компоненте movie
-
     this.overwriteMoviesDataWithNewRating = (id, rating) => {
       const { moviesDataRatingArr } = this.state
       const newMoviesDataRatingArr = { ...moviesDataRatingArr }
@@ -184,7 +165,6 @@ export default class App extends Component {
     this.checkHeaderBtnActive = (btn) => {
       this.setState({
         activeHeaderBtn: btn,
-        // loading: true,
       })
     }
 
@@ -230,17 +210,9 @@ export default class App extends Component {
         loading: true,
       })
     }
-    // if (prevState.activeHeaderBtn !== activeHeaderBtn) {
-    //   if (activeHeaderBtn === 'search') {
-    //     this.setState({
-    //       searchMovie: 'return',
-    //     })
-    //   }
-    // }
   }
 
-  onError(err) {
-    console.log('Error', err)
+  onError() {
     this.setState({
       error: true,
       loading: false,
@@ -250,7 +222,6 @@ export default class App extends Component {
   getRandomMovies() {
     this.SwapiService.getResource(
       'search/movie?api_key=a2fbb8a8510cd68f6c08fbbdeffcb92d&query=return&language=en-US&page=1&include_adult=false&page=1'
-      // 'search/movie?api_key=d019d5a6023ae30666fb845af41ca028&query=return&language=en-US&page=1&include_adult=false&page=1'
     )
       .then((movies) => {
         this.setState({
@@ -260,14 +231,12 @@ export default class App extends Component {
         })
       })
       .catch((err) => {
-        console.log('Ошибка', err)
         this.onError(err)
       })
   }
 
   getAllGanres() {
     this.SwapiService.getResource('genre/movie/list?api_key=a2fbb8a8510cd68f6c08fbbdeffcb92d')
-      // this.SwapiService.getResource('genre/movie/list?api_key=d019d5a6023ae30666fb845af41ca028')
       .then((genres) => {
         this.setState({
           moviesGenres: genres.genres.reduce((map, obj) => {
@@ -277,8 +246,7 @@ export default class App extends Component {
           }, {}),
         })
       })
-      .catch((err) => {
-        console.log('Error', err)
+      .catch(() => {
         this.setState({
           moviesGenres: 'DataNotUploaded',
         })
@@ -289,7 +257,6 @@ export default class App extends Component {
   // гостевым ID
   getGuestSession() {
     this.SwapiService.createGuestSession('authentication/guest_session/new?api_key=a2fbb8a8510cd68f6c08fbbdeffcb92d')
-      // this.SwapiService.createGuestSession('authentication/guest_session/new?api_key=d019d5a6023ae30666fb845af41ca028')
       .then((body) => {
         this.setState({
           sessionId: body.guest_session_id,
@@ -297,10 +264,9 @@ export default class App extends Component {
         })
       })
       .catch((err) => {
-        console.log('Guest session id not received', err)
+        this.onError(err)
       })
   }
-  //--------------------------------------------------------------------------------
 
   render() {
     const {

@@ -1,3 +1,3 @@
-import SearchBox from './search-box'
+import { SearchBox } from './search-box'
 
-export default SearchBox
+export { SearchBox }

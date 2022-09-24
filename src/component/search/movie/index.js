@@ -1,3 +1,3 @@
-import Movie from './movie'
+import { Movie } from './movie'
 
-export default Movie
+export { Movie }

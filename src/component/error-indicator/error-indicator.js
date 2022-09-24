@@ -7,15 +7,9 @@ function ErrorIndicator(props) {
 
   return (
     <div className="alert__wrapper">
-      <Alert
-        message="Error"
-        // description="Error: Data not received from server"
-        description={message}
-        type="error"
-        showIcon
-      />
+      <Alert message="Error" description={message} type="error" showIcon />
     </div>
   )
 }
 
-export default ErrorIndicator
+export { ErrorIndicator }

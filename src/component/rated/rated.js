@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 
-import MoviesList from '../search/movies-list'
-import ErrorIndicator from '../error-indicator'
-import Spinner from '../spinner'
+import { ErrorIndicator } from '../error-indicator'
+import { MoviesList } from '../search/movies-list'
+import { Spinner } from '../spinner'
 
-export default class Rated extends Component {
+export class Rated extends Component {
   UNSAFE_componentWillMount() {
     const { getRatingMovie } = this.props
     getRatingMovie()
@@ -36,19 +36,10 @@ export default class Rated extends Component {
       />
     )
 
-    console.log(loading)
-
     const errorDisplay = ratingMovieData === 'ratingMovieDataNotUploaded' ? error : null
-    // const data = ratingMovieData === 'ratingMovieDataNotUploaded' ? error : movies
     const spinner = loading ? <Spinner /> : null
     const hasData = !(errorDisplay || spinner)
     const data = hasData ? movies : null
-
-    // if (ratingMovieData === 'ratingMovieDataNotUploaded') {
-    //   data = error
-    // } else {
-    //   data = movies
-    // }
 
     return (
       <>

@@ -1,9 +1,9 @@
 import React from 'react'
 
-import Spinner from '../spinner'
+import { Spinner } from '../spinner'
 
-import SearchBox from './search-box'
-import MoviesList from './movies-list'
+import { SearchBox } from './search-box'
+import { MoviesList } from './movies-list'
 
 function Search(props) {
   const {
@@ -22,7 +22,6 @@ function Search(props) {
 
   const hasData = !(error || loading)
 
-  console.log('searchMovie', searchMovie)
   const moviesAll = (
     <MoviesList
       moviesData={moviesData}
@@ -50,4 +49,4 @@ function Search(props) {
   )
 }
 
-export default Search
+export { Search }

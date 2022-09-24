@@ -1,4 +1,4 @@
-# https://movie-fetj2sxuj-xromenkovevgenii-mailru.vercel.app/
+# vercel: https://movie-app-xromenkovevgenii-mailru.vercel.app/
 
 # Getting Started with Create React App
 
